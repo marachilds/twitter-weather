@@ -1,4 +1,8 @@
 library(streamR)
+library(rgeos)
+library(rgdal)
+library(httr)
+library(dplyr)
 
 # Options list for states and capital cities (Mara)
 cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
@@ -22,5 +26,38 @@ twitterData <- function() {
 
 weatherData <- function() {
   base.url <- "https://api.darksky.net/forecast/"
+  district.uri <- paste0(base.url, district.resource)
+  district.query.params <- list(zip = zip.code)
+  
+  # retrieving data
+  district.response <- GET(district.uri, query = district.query.params)
+  district.body <- content(district.response, "text")
+  district.results <- as.data.frame(fromJSON(district.body))
 }
 
+# code for findLatLong and findGeoData sourced from: 
+# https://stackoverflow.com/posts/27868207/revisions
+
+
+findLatLong <- function(geog_data, city) {
+  do.call(rbind.data.frame, mapply(function(x, y) {
+    geog_data %>% filter (city == x, state == y)
+  }, city, state, SIMPLIFY = FALSE))
+}
+
+findGeoData <- function() {
+  try({
+    GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
+      write_disk("cities.zip"))
+    unzip("cities.zip", exdir="cities") })
+  
+  shape.file <- readOGR("cities/citiesx020.shp", "citiesx020")
+  
+  geo.data <- 
+    gCentroid(shp, byid = TRUE) %>%
+    data.frame() %>%
+    rename(lon = x, lat = y) %>%
+    mutate(city = shp@data$NAME, state = shp@data$STATE)
+  
+  return(geo.data)
+}
