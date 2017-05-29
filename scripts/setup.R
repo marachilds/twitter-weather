@@ -4,6 +4,9 @@ library(rgdal)
 library(httr)
 library(dplyr)
 
+# Global Variables 
+# ----------------
+
 # Options list for states and capital cities (Mara)
 cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Little Rock, Arkansas", "Sacramento, California", "Denver, Colorado",
@@ -21,14 +24,24 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
             )
 
-# dataset to find latitude and longitude of cities for API call
+# Dataset to find latitude and longitude of cities for API call
 geo_data <- findGeoData()
+
+
+# API Calls - Data Retrieval
+# -------------------------
 
 twitterData <- function() {
   
 }
 
-weatherData <- function() {
+# Retrieves a data frame with ______ with the given city and state
+CityWeatherData <- function(city, state) {
+  # Retrieve latitude and longitude for given city and state
+  lat.long.df <- geo_data %>% findLatLong(city, state)
+  curr.long <- lat.long.df[,1]
+  curr.lat <- lat.long.df[,2]
+  
   base.url <- "https://api.darksky.net/forecast/"
   district.uri <- paste0(base.url, district.resource)
   district.query.params <- list(zip = zip.code)
@@ -39,23 +52,26 @@ weatherData <- function() {
   district.results <- as.data.frame(fromJSON(district.body))
 }
 
-# code for findLatLong and findGeoData sourced from: 
+
+# Latitude & Longitude Retrieval for API Calls
+# --------------------------------------------
+# Code for findLatLong and findGeoData sourced from: 
 # https://stackoverflow.com/posts/27868207/revisions
 
 
 # Returns a data frame that contains the longitude and latitude
 # for the given state and city.
+# Input format: findLatLong(geog_db, "Portland", "ME")
 # Ex: lon       lat       city      state
 #     -70.25404 43.66186  Portland   ME
-findLatLong <- function(geog_data, city, state) {
+findLatLong <- function(geo_db, city, state) {
   do.call(rbind.data.frame, mapply(function(x, y) {
-    geog_data %>% filter (city == x, state == y)
-  }, city, state, SIMPLIFY = FALSE))
+    geo_db %>% filter(city==x, state==y)
+  }, city, state, SIMPLIFY=FALSE))
 }
 
 
-# Retrieves dataset for towns and cities in Canada/US with latitudinal and 
-# longitudinal data
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data
 findGeoData <- function() {
   try({
     GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
