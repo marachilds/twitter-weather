@@ -1,3 +1,5 @@
+library(streamR)
+
 # Options list for states and capital cities (Mara)
 cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Little Rock, Arkansas", "Sacramento, California", "Denver, Colorado",
@@ -14,3 +16,11 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Montpelier, Vermont", "Richmond, Virginia", "Olympia, Washington", "Charleston, West Virginia",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
             )
+twitterData <- function() {
+  
+}
+
+weatherData <- function() {
+  base.url <- "https://api.darksky.net/forecast/"
+}
+
