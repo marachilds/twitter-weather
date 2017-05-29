@@ -20,6 +20,10 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Montpelier, Vermont", "Richmond, Virginia", "Olympia, Washington", "Charleston, West Virginia",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
             )
+
+# dataset to find latitude and longitude of cities for API call
+geo_data <- findGeoData()
+
 twitterData <- function() {
   
 }
@@ -39,20 +43,29 @@ weatherData <- function() {
 # https://stackoverflow.com/posts/27868207/revisions
 
 
-findLatLong <- function(geog_data, city) {
+# Returns a data frame that contains the longitude and latitude
+# for the given state and city.
+# Ex: lon       lat       city      state
+#     -70.25404 43.66186  Portland   ME
+findLatLong <- function(geog_data, city, state) {
   do.call(rbind.data.frame, mapply(function(x, y) {
     geog_data %>% filter (city == x, state == y)
   }, city, state, SIMPLIFY = FALSE))
 }
 
+
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and 
+# longitudinal data
 findGeoData <- function() {
   try({
     GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
       write_disk("cities.zip"))
     unzip("cities.zip", exdir="cities") })
   
-  shape.file <- readOGR("cities/citiesx020.shp", "citiesx020")
+  # reads in shape file from URL
+  shp <- readOGR("cities/citiesx020.shp", "citiesx020")
   
+  # extract city centroids from shape file with name and state
   geo.data <- 
     gCentroid(shp, byid = TRUE) %>%
     data.frame() %>%
