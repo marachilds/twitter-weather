@@ -31,14 +31,24 @@ geo_data <- findGeoData()
 
 # API Calls - Data Retrieval
 # -------------------------
+# TO-DO: Weather API - get results by specific time - find out what the time input will be (by year, month, day?)
+# TO-DO: Twitter API - get number of tweets by location, number of tweets by time
 
-twitterData <- function() {
+
+twitterDataByTime <- function() {
   
 }
 
+twitterDataByLocation <- function() {
+  
+}
+
+weatherDataByTime <- function(time) {
+  
+}
 # Retrieves a data frame with ______ with the given city and state.
 # Retrieves data from system time by default.
-CityWeatherData <- function(city, state) {
+weatherDataByLocation <- function(city, state) {
   # Retrieve latitude and longitude for given city and state
   lat.long.df <- geo_data %>% findLatLong(city, state)
   curr.long <- lat.long.df[,1]
