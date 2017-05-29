@@ -1,4 +1,5 @@
 library(streamR)
+library(jsonlite)
 library(rgeos)
 library(rgdal)
 library(httr)
@@ -35,21 +36,26 @@ twitterData <- function() {
   
 }
 
-# Retrieves a data frame with ______ with the given city and state
+# Retrieves a data frame with ______ with the given city and state.
+# Retrieves data from system time by default.
 CityWeatherData <- function(city, state) {
   # Retrieve latitude and longitude for given city and state
   lat.long.df <- geo_data %>% findLatLong(city, state)
   curr.long <- lat.long.df[,1]
   curr.lat <- lat.long.df[,2]
   
-  base.url <- "https://api.darksky.net/forecast/"
-  district.uri <- paste0(base.url, district.resource)
-  district.query.params <- list(zip = zip.code)
+  # Retrieve API key from key.JSON (stored in JSON for security)
+  key <- "f2816b4bb0266a96e77991a187b35d9c"
+  # key <- Sys.getenv("WEATHER_KEY"), not working for some reason
   
+
+  base.url <- "https://api.darksky.net/forecast/"
+  weather.uri <- paste0(base.url, key, "/", curr.long, ",", curr.lat)
+
   # retrieving data
-  district.response <- GET(district.uri, query = district.query.params)
-  district.body <- content(district.response, "text")
-  district.results <- as.data.frame(fromJSON(district.body))
+  weather.response <- GET(weather.uri)
+  weather.body <- content(weather.response, "text")
+  weather.results <- as.data.frame(fromJSON(weather.body))
 }
 
 
