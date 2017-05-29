@@ -1,5 +1,5 @@
 # Options list for states and capital cities (Mara)
-cities <- c("Montgomery, Alamaba", "Juneau, Alaska", "Phoenix, Arizona",
+cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Little Rock, Arkansas", "Sacramento, California", "Denver, Colorado",
             "Hartford, Connecticut", "Dover, Delaware", "Tallahassee, Florida",
             "Atlanta, Georgia", "Honolulu, Hawaii", "Boise, Idaho", "Springfield, Illinois",
