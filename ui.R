@@ -19,13 +19,16 @@ shinyUI(fluidPage(
       dateInput("dates", "Select Date"),
       sliderInput("time", "Select Time Range",
                   min = 0, max = 24, value = c(0, 24)),
-      selectInput("city", "Select City", choices = cities)
+      selectInput("city", "Select City", choices = cities),
+      selectInput("chart", "Select Graphs", choices = c("Tweets", "Weather"))
       
     ),
     
     # Plot it!
     mainPanel(
-      plotlyOutput('mainPlot', height = "600px", width = "800px")
+      
+      plotlyOutput('fooPlot1', height = "600px", width = "800px")
+
       )
     )
   )
