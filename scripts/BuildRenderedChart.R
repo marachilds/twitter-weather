@@ -8,8 +8,6 @@ library(plotly)
 library(ggplot2)
 library(dplyr)
 
-source("BuildBarChart.R")
-
 # The plot1 variable determines the y axis, therefore, choose the plot that
 # has a higher y max
 

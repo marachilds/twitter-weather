@@ -13,7 +13,7 @@ library(rgdal)
 
 #scripts
 #setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
-#source('.scripts/BuildRenderedChart.R')
+source('scripts/BuildRenderedChart.R')
 
 #call buildtimeline.R
 shinyServer(function(input, output) {
