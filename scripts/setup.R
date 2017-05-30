@@ -43,17 +43,20 @@ twitterData <- function(city, state, day) {
   lat.long.df <- geo_data %>% findLatLong(city, state)
   curr.long <- lat.long.df[,1]
   curr.lat <- lat.long.df[,2]
+  
+  base.url <- test
 }
 
 # test variables 
 city <- "Portland"
 state <- "ME"
-day <- "28 May 2017"
+day <- "2017-05-28"
 
 # Retrieves a data frame with weather data for the specified day with the given city and state,
 # with hourly time block starting from midnight of the day requested, 
-# continuing until midnight of the following day.
-# input format: weatherData("Portland", "ME", "28 May 2017")
+# continuing until midnight of the following day. Hourly time blocks start from the current system time.
+# input format: weatherData("Portland", "ME", "28 May 2017"), multiple Date formats should work
+
 weatherData <- function(city, state, day) {
   
   # Retrieve latitude and longitude for given city and state
@@ -85,7 +88,7 @@ weatherData <- function(city, state, day) {
   
   # convert Celsius temperatures to Fahrenheit
   weather.df$temperature <- weather.df$temperature * (9/5) + 32
-  weather.df$apparentTemperature <- weather.df$apparentTemperature * (9/5) + 32
+  
   weather.df <- weather.df %>% select(temperature, time)
   return(weather.df) 
 }
