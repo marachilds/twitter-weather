@@ -44,6 +44,10 @@ twitterData <- function(city, state, day) {
   curr.lat <- lat.long.df[,2]
 }
 
+# test variables 
+city <- "Portland"
+state <- "ME"
+
 # Retrieves a data frame with weather data for the specified day with the given city and state,
 # with hourly time block starting from midnight of the day requested, 
 # continuing until midnight of the following day.
