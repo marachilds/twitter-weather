@@ -16,10 +16,17 @@ shinyUI(fluidPage(
     
     sidebarPanel(
       
+      # Returns YYYY-MM-DD
       dateInput("dates", "Select Date"),
+      
+      # Returns date values as 0-24
       sliderInput("time", "Select Time Range",
                   min = 0, max = 24, value = c(0, 24)),
+      
+      # Returns Capital City, State
       selectInput("city", "Select City", choices = cities),
+      
+      # Returns Tweets or Weather
       selectInput("chart", "Select Graphs", choices = c("Tweets", "Weather"))
       
     ),
