@@ -1,6 +1,7 @@
 # server.R
 
 #libraries
+library(anytime)
 library(shiny)
 library(dplyr)
 library(plotly)
@@ -13,7 +14,7 @@ library(rgdal)
 
 #scripts
 #setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
-source('scripts/BuildRenderedChart.R')
+source('scripts/BuildBarChart.R')
 
 #call buildtimeline.R
 shinyServer(function(input, output) {
@@ -23,7 +24,7 @@ shinyServer(function(input, output) {
   
   output$mainPlot <- BuildBarPlot(mtcars, 'hp', 'drat', "MPG", "CYL", "mpg v cyl")
   
-  # output$value <- renderPrint({input$dates})
-  # output$value <- renderPrint({input$time})
-  # output$value <- renderPrint({input$city})
+  output$value <- renderPrint({input$dates})
+  output$value <- renderPrint({input$time})
+  output$value <- renderPrint({input$city})
 })
