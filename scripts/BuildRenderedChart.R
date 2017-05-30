@@ -13,6 +13,15 @@ source("BuildBarChart.R")
 # The plot1 variable determines the y axis, therefore, choose the plot that
 # has a higher y max
 
-RenderPlots <- function(plot1, plot2) {
- subplot(plot1, plot2, shareX = TRUE) 
+RenderPlots <- function(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2) {
+ plot.3 <- plot_ly(data = data,
+                   x = data.1[[y.var.1]],
+                   y = data.2[[y.var.2]],
+                   type = "scatter",
+                   marker = list(size = 20,
+                                 color = data[[color.var]],
+                                 line = list(color = 'rgba(0, 0, 0, .8)',
+                                             width = 2),
+                                 opacity = 0.7))
+  return(subplot(plot.1, plot.2, plot.3, shareX = TRUE))
 }

@@ -13,7 +13,7 @@ BuildBarPlot <- function(data, x.var, y.var, x.label, y.label, title, color.var)
     x = data[[x.var]],
     y = data[[y.var]],
     type = "bar",
-    color = data[[color.var]]
+    color = color.var #fixxxx
   ) %>%
     layout(
       title = title,
