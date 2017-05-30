@@ -48,16 +48,21 @@ twitterData <- function(city, state, day) {
 # test variables 
 city <- "Portland"
 state <- "ME"
+day <- "28 May 2017"
 
 # Retrieves a data frame with weather data for the specified day with the given city and state,
 # with hourly time block starting from midnight of the day requested, 
 # continuing until midnight of the following day.
-# Input format: weatherData("Portland", "ME", "2000-06-02")
+# input format: weatherData("Portland", "ME", "28 May 2017")
 weatherData <- function(city, state, day) {
+  
   # Retrieve latitude and longitude for given city and state
   lat.long.df <- geo_data %>% findLatLong(city, state)
-  curr.long <- lat.long.df[,1]
-  curr.lat <- lat.long.df[,2]
+  longitude <- lat.long.df[,1]
+  latitude <- lat.long.df[,2]
+  
+  # Convert given Date to UNIX format
+  unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
   key <- "f2816b4bb0266a96e77991a187b35d9c"
@@ -65,7 +70,7 @@ weatherData <- function(city, state, day) {
   
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
-  weather.uri <- paste0(base.url, key, "/", curr.long, ",", curr.lat)
+  weather.uri <- paste0(base.url, key, "/", longitude, ",", latitude, ",", unix.time.day)
   weather.params <- list(exclude = paste0("currently", ",", "minutely", ",", "flags"))
 
   # retrieving data from API
@@ -73,6 +78,16 @@ weatherData <- function(city, state, day) {
   weather.body <- content(weather.response, "text")
   weather.results <- fromJSON(weather.body)
   
+  weather.df <- weather.results$hourly$data
+  
+  # convert UNIX time to Dates
+  weather.df$time <- anytime(weather.df$time)
+  
+  # convert Celsius temperatures to Fahrenheit
+  weather.df$temperature <- weather.df$temperature * (9/5) + 32
+  weather.df$apparentTemperature <- weather.df$apparentTemperature * (9/5) + 32
+
+  return(weather.df) 
 }
 
 
