@@ -4,6 +4,7 @@ library(rgeos)
 library(rgdal)
 library(httr)
 library(dplyr)
+library(anytime)
 
 # Global Variables 
 # ----------------
@@ -51,6 +52,7 @@ state <- "ME"
 # Retrieves a data frame with weather data for the specified day with the given city and state,
 # with hourly time block starting from midnight of the day requested, 
 # continuing until midnight of the following day.
+# Input format: weatherData("Portland", "ME", "2000-06-02")
 weatherData <- function(city, state, day) {
   # Retrieve latitude and longitude for given city and state
   lat.long.df <- geo_data %>% findLatLong(city, state)
@@ -64,7 +66,7 @@ weatherData <- function(city, state, day) {
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
   weather.uri <- paste0(base.url, key, "/", curr.long, ",", curr.lat)
-  weather.params <- list(exclude = currently, minutely)
+  weather.params <- list(exclude = paste0("currently", ",", "minutely", ",", "flags"))
 
   # retrieving data from API
   weather.response <- GET(weather.uri, query = weather.params)
