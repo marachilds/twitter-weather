@@ -11,15 +11,15 @@ shinyUI(fluidPage(
   # Application title
   titlePanel("Twitter and Weather"),
   
-  # Sidebar with select inputs for y, color, and size
+  # Sidebar with select inputs for date, time, and city
   sidebarLayout(
     
     sidebarPanel(
       
-      dateRangeInput("dates", "Date Range"),
-      sliderInput("time", "Time Range",
+      dateInput("dates", "Select Date"),
+      sliderInput("time", "Select Time Range",
                   min = 0, max = 24, value = c(0, 24)),
-      selectInput("city", "City", choices = cities)
+      selectInput("city", "Select City", choices = cities)
       
     ),
     
