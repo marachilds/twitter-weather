@@ -61,14 +61,16 @@ weatherData <- function(city, state, day) {
   key <- "f2816b4bb0266a96e77991a187b35d9c"
   # key <- Sys.getenv("WEATHER_KEY"), not working for some reason
   
-
+  # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
   weather.uri <- paste0(base.url, key, "/", curr.long, ",", curr.lat)
+  weather.params <- list(exclude = currently, minutely)
 
-  # retrieving data
-  weather.response <- GET(weather.uri)
+  # retrieving data from API
+  weather.response <- GET(weather.uri, query = weather.params)
   weather.body <- content(weather.response, "text")
-  weather.results <- as.data.frame(fromJSON(weather.body))
+  weather.results <- fromJSON(weather.body)
+  
 }
 
 
