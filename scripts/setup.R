@@ -35,20 +35,19 @@ geo_data <- findGeoData()
 # TO-DO: Twitter API - get number of tweets by location, number of tweets by time
 
 
-twitterDataByTime <- function() {
-  
+
+# Retrieves a data frame with the number of tweets for a given state, city and day,
+# with tweets by hour.
+twitterData <- function(city, state, day) {
+  lat.long.df <- geo_data %>% findLatLong(city, state)
+  curr.long <- lat.long.df[,1]
+  curr.lat <- lat.long.df[,2]
 }
 
-twitterDataByLocation <- function() {
-  
-}
-
-weatherDataByTime <- function(time) {
-  
-}
-# Retrieves a data frame with ______ with the given city and state.
-# Retrieves data from system time by default.
-weatherDataByLocation <- function(city, state) {
+# Retrieves a data frame with weather data for the specified day with the given city and state,
+# with hourly time block starting from midnight of the day requested, 
+# continuing until midnight of the following day.
+weatherData <- function(city, state, day) {
   # Retrieve latitude and longitude for given city and state
   lat.long.df <- geo_data %>% findLatLong(city, state)
   curr.long <- lat.long.df[,1]
