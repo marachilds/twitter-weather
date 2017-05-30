@@ -86,7 +86,7 @@ weatherData <- function(city, state, day) {
   # convert Celsius temperatures to Fahrenheit
   weather.df$temperature <- weather.df$temperature * (9/5) + 32
   weather.df$apparentTemperature <- weather.df$apparentTemperature * (9/5) + 32
-
+  weather.df <- weather.df %>% select(temperature, time)
   return(weather.df) 
 }
 
