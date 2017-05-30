@@ -16,7 +16,9 @@ source('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter
 
 #call buildtimeline.R
 shinyServer(function(input, output) {
-  output$mainPlot <- BuildBarPlot(twitter.data, input$time, y.var, 'Time', 'Number of Tweets', 'Number of Tweets Throughout the Day', color)
+  output$mainPlot <- BuildBarPlot(twitter.data, input$time, y.var, 'Time', 'Number of Tweets', 'Number of Tweets Throughout the Day')
+  output$mainPlot <- BuildLinePlot(data, x.var, y.var, x.label, y.label, title)
+  #output$mainPlot <- RenderPlots(plot.1, y.var.1, plot.2, y.var.2)
   
   output$value <- renderPrint({input$dates})
   output$value <- renderPrint({input$time})
