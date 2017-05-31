@@ -30,6 +30,18 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
 # Dataset to find latitude and longitude of cities for API call
 geo_data <- findGeoData()
 
+# Twitter authentification credentials 
+appname <- "twitter-weather-moscow-mules"
+
+# Retrieving authetication credentials from .json 
+twitter.key <- fromJSON(file="access-keys.json")$twitter$consumer_key
+twitter.secret <- fromJSON(file="access-keys.json")$twitter$consumer_secret
+
+# create token for authentication
+twitter.token <- create_token(
+  app = appname,
+  consumer_key = twitter.key,
+  consumer_secret = twitter.secret)
 
 # API Calls - Data Retrieval
 # -------------------------
@@ -46,7 +58,7 @@ twitterData <- function(city, state, day) {
   curr.long <- lat.long.df[,1]
   curr.lat <- lat.long.df[,2]
   
-  # Setting up Twitter query
+
   
 }
 
@@ -71,9 +83,8 @@ weatherData <- function(city, state, day) {
   unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
-  key <- "f2816b4bb0266a96e77991a187b35d9c"
-  # key <- Sys.getenv("WEATHER_KEY"), not working for some reason
-  
+  key <- fromJSON(file="access-keys.json")$weather$key
+
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
   weather.uri <- paste0(base.url, key, "/", longitude, ",", latitude, ",", unix.time.day)
