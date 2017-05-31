@@ -1,0 +1,11 @@
+{
+  "twitter": {
+    "consumer_key": "PpJ6OCwiqfq1QYly9ymPro6Ge",
+    "consumer_secret": "T0ZjqXNeOOvV2VNrX4NSZB14BtRYAobMeYx4pFVUWTxqitEoEm",
+    "access_token": "869856295548968960-SxNgMoPPtDsTAHknhC4aaf3aVliNVAu",
+    "access_secret": "gLXIrXtVlMvTP89h6u4KeqBk92FpYba1ZxwkaMSf2SzdW"
+  },
+  "weather": {
+     "key": "f2816b4bb0266a96e77991a187b35d9c"
+  }
+}
