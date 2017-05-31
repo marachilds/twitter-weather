@@ -5,7 +5,6 @@ library(anytime)
 library(shiny)
 library(dplyr)
 library(plotly)
-library(streamR)
 library(httr)
 library(rgeos)
 library(jsonlite)
@@ -15,10 +14,24 @@ library(rgdal)
 #scripts
 #setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
 source('scripts/BuildBarChart.R', chdir = T) 
-# NOTE: I added chdir = T so the working directory is automatically set to the twitter weather folder to make script calls a little easier - Isabel
 
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
+geo_data <- read.csv("geo_data.csv")
 
-#call buildtimeline.R
+## Twitter authentification credentials 
+appname <- "twitter-weather-moscow-mules"
+
+# Retrieving authentication credentials from .json 
+twitter.key <- fromJSON(txt='access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(txt='access-keys.json')$twitter$consumer_secret
+
+# create token for authentication
+twitter.token <- create_token(
+  app = appname,
+  consumer_key = twitter.key,
+  consumer_secret = twitter.secret)
+
+# call buildtimeline.R
 shinyServer(function(input, output) {
   #output$mainPlot <- BuildBarPlot(twitter.data, input$time, y.var, 'Time', 'Number of Tweets', 'Number of Tweets Throughout the Day')
   #output$mainPlot <- BuildLinePlot(data, x.var, y.var, x.label, y.label, title)

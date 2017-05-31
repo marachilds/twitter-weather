@@ -1,4 +1,3 @@
-library(streamR)
 library(rtweet)
 library(jsonlite)
 library(rgeos)
@@ -25,7 +24,7 @@ findLatLong <- function(geo_db, city, state) {
 }
 
 
-# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data
+
 findGeoData <- function() {
   try({
     GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
@@ -65,24 +64,6 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
             )
 
-# Dataset to find latitude and longitude of cities for API call
-# TO-DO: Store this as an environmental variable so you don't have to rebuild this every single time the app is run.
-geo_data <- findGeoData()
-
-## Twitter authentification credentials 
-appname <- "twitter-weather-moscow-mules"
-
-# Retrieving authentication credentials from .json 
-twitter.key <- fromJSON(file='scripts/access-keys.json')$twitter$consumer_key
-twitter.secret <- fromJSON(file='access-keys.json')$twitter$consumer_secret
-
-# create token for authentication
-## TO-DO: Make this an environment variable so you don't have to recreate this every single time this is run...
-## See rtweet library documentation for tips on how to do this
-twitter.token <- create_token(
-  app = appname,
-  consumer_key = twitter.key,
-  consumer_secret = twitter.secret)
 
 # API Calls - Data Retrieval
 # -------------------------
@@ -104,7 +85,7 @@ twitterData <- function(city, state, day) {
   
   # Gets tweets from specified location and radius. 
   # Change "5mi" if you want a different area of query; change n to get different number of tweets
-  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","10mi"), n = 10000) ## This takes like 5 minutes...
+  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","10mi"), n = 1000) ## This takes like 5 minutes...
   twitter.df.times <- twitter.df %>% select(created_at)
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
   twitter.result <- data.frame(table(hourly.range))
