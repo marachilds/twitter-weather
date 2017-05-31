@@ -47,14 +47,16 @@ twitter.token <- create_token(
 
 # API Calls - Data Retrieval
 # -------------------------
-# TO-DO: Twitter API - adjust twitterData to get tweets from specific time
-  ## Current state: retrieves tweets from last 6-9 days for given location within 5mi radius
-  ## Leverage get_timeline somehow to do this?
+# TO-DO: Twitter API - adjust twitterData to get tweets from specific day
+     # What range should we do for our search in miles?
+     # How many tweets should we retrieve to ensure that we're getting all of them? 
+        ## See retryonratelimit for search_tweets in rtweet documentation for more info on getting more than 18000 tweets
+     # Are there any other libraries that can help retrieve tweets from a specific date range or specific time? No historical data available...
 
 
-
-# Retrieves a data frame with the number of tweets for a given state, city and day,
-# with tweets by hour.
+# Retrieves a data frame with the number of tweets for a given state and city. 
+# Currently retrieves up to 18000 tweets from the last 6-9 days within 5 miles of the 
+# specified location's latitude and longitude. 
 twitterData <- function(city, state, day) {
   # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
@@ -62,7 +64,7 @@ twitterData <- function(city, state, day) {
   latitude <- lat.long.df[,2]
   
   # Gets tweets from specified location and radius. 
-  # Change "5mi" if you want a different area of query
+  # Change "5mi" if you want a different area of query; change n to get different number of tweets
   twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","5mi"), n = 18000) ## This takes like 5 minutes...
   twitter.df.times <- twitter.df %>% select(created_at)
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
