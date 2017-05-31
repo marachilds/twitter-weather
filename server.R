@@ -14,7 +14,9 @@ library(rgdal)
 
 #scripts
 #setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
-source('scripts/BuildBarChart.R')
+source('scripts/BuildBarChart.R', chdir = T) 
+# NOTE: I added chdir = T so the working directory is automatically set to the twitter weather folder to make script calls a little easier - Isabel
+
 
 #call buildtimeline.R
 shinyServer(function(input, output) {

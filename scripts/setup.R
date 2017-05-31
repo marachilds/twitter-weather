@@ -7,6 +7,44 @@ library(httr)
 library(dplyr)
 library(anytime)
 
+
+# Latitude & Longitude Retrieval for API Calls
+# --------------------------------------------
+# Code for findLatLong and findGeoData sourced from: 
+# https://stackoverflow.com/posts/27868207/revisions
+
+# Returns a data frame that contains the longitude and latitude
+# for the given state and city.
+# Input format: findLatLong(geog_db, "Portland", "ME")
+# Ex: lon       lat       city      state
+#     -70.25404 43.66186  Portland   ME
+findLatLong <- function(geo_db, city, state) {
+  do.call(rbind.data.frame, mapply(function(x, y) {
+    geo_db %>% filter(city==x, state==y)
+  }, city, state, SIMPLIFY=FALSE))
+}
+
+
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data
+findGeoData <- function() {
+  try({
+    GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
+        write_disk("cities.zip"))
+    unzip("cities.zip", exdir="cities") })
+  
+  # reads in shape file from URL
+  shp <- readOGR("cities/citiesx020.shp", "citiesx020")
+  
+  # extract city centroids from shape file with name and state
+  geo.data <- 
+    gCentroid(shp, byid = TRUE) %>%
+    data.frame() %>%
+    rename(lon = x, lat = y) %>%
+    mutate(city = shp@data$NAME, state = shp@data$STATE)
+  
+  return(geo.data)
+}
+
 # Global Variables 
 # ----------------
 
@@ -35,8 +73,8 @@ geo_data <- findGeoData()
 appname <- "twitter-weather-moscow-mules"
 
 # Retrieving authentication credentials from .json 
-twitter.key <- fromJSON(file="access-keys.json")$twitter$consumer_key
-twitter.secret <- fromJSON(file="access-keys.json")$twitter$consumer_secret
+twitter.key <- fromJSON(file='scripts/access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(file='access-keys.json')$twitter$consumer_secret
 
 # create token for authentication
 ## TO-DO: Make this an environment variable so you don't have to recreate this every single time this is run...
@@ -66,7 +104,7 @@ twitterData <- function(city, state, day) {
   
   # Gets tweets from specified location and radius. 
   # Change "5mi" if you want a different area of query; change n to get different number of tweets
-  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","5mi"), n = 18000) ## This takes like 5 minutes...
+  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","10mi"), n = 10000) ## This takes like 5 minutes...
   twitter.df.times <- twitter.df %>% select(created_at)
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
   twitter.result <- data.frame(table(hourly.range))
@@ -119,40 +157,3 @@ weatherData <- function(city, state, day) {
 }
 
 
-# Latitude & Longitude Retrieval for API Calls
-# --------------------------------------------
-# Code for findLatLong and findGeoData sourced from: 
-# https://stackoverflow.com/posts/27868207/revisions
-
-
-# Returns a data frame that contains the longitude and latitude
-# for the given state and city.
-# Input format: findLatLong(geog_db, "Portland", "ME")
-# Ex: lon       lat       city      state
-#     -70.25404 43.66186  Portland   ME
-findLatLong <- function(geo_db, city, state) {
-  do.call(rbind.data.frame, mapply(function(x, y) {
-    geo_db %>% filter(city==x, state==y)
-  }, city, state, SIMPLIFY=FALSE))
-}
-
-
-# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data
-findGeoData <- function() {
-  try({
-    GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
-      write_disk("cities.zip"))
-    unzip("cities.zip", exdir="cities") })
-  
-  # reads in shape file from URL
-  shp <- readOGR("cities/citiesx020.shp", "citiesx020")
-  
-  # extract city centroids from shape file with name and state
-  geo.data <- 
-    gCentroid(shp, byid = TRUE) %>%
-    data.frame() %>%
-    rename(lon = x, lat = y) %>%
-    mutate(city = shp@data$NAME, state = shp@data$STATE)
-  
-  return(geo.data)
-}
