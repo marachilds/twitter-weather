@@ -63,7 +63,11 @@ twitterData <- function(city, state, day) {
   
   # Gets tweets from specified location and radius. 
   # Change "5mi" if you want a different area of query
-  twitter.df <- search_tweets(q = "", geocode=paste0(latitude, ",", longitude, ",","5mi"))
+  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","5mi"), n = 18000) ## This takes like 5 minutes...
+  twitter.df.times <- twitter.df %>% select(created_at)
+  hourly.range <- cut(twitter.df$created_at, breaks="hour")
+  twitter.result <- data.frame(table(hourly.range))
+  return (twitter.result)
 }
 
 # test variables 
