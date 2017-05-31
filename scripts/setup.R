@@ -30,14 +30,16 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
 # Dataset to find latitude and longitude of cities for API call
 geo_data <- findGeoData()
 
-# Twitter authentification credentials 
+## Twitter authentification credentials 
 appname <- "twitter-weather-moscow-mules"
 
-# Retrieving authetication credentials from .json 
+# Retrieving authentication credentials from .json 
 twitter.key <- fromJSON(file="access-keys.json")$twitter$consumer_key
 twitter.secret <- fromJSON(file="access-keys.json")$twitter$consumer_secret
 
 # create token for authentication
+## TO-DO: Make this an environment variable so you don't have to recreate this every single time this is run...
+## See rtweet library documentation for tips on how to do this
 twitter.token <- create_token(
   app = appname,
   consumer_key = twitter.key,
@@ -45,8 +47,9 @@ twitter.token <- create_token(
 
 # API Calls - Data Retrieval
 # -------------------------
-# TO-DO: Weather API - get results by specific time - find out what the time input will be (by year, month, day?)
-# TO-DO: Twitter API - get number of tweets by location, number of tweets by time
+# TO-DO: Twitter API - adjust twitterData to get tweets from specific time
+  ## Current state: retrieves tweets from last 6-9 days for given location within 5mi radius
+  ## Leverage get_timeline somehow to do this?
 
 
 
@@ -55,11 +58,12 @@ twitter.token <- create_token(
 twitterData <- function(city, state, day) {
   # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
-  curr.long <- lat.long.df[,1]
-  curr.lat <- lat.long.df[,2]
+  longitude <- lat.long.df[,1]
+  latitude <- lat.long.df[,2]
   
-
-  
+  # Gets tweets from specified location and radius. 
+  # Change "5mi" if you want a different area of query
+  twitter.df <- search_tweets(q = "", geocode=paste0(latitude, ",", longitude, ",","5mi"))
 }
 
 # test variables 
