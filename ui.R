@@ -3,7 +3,7 @@ library(shiny)
 library(plotly)
 
 # Read in source scripts
-source('./scripts/setup.R')
+source('./scripts')
 
 # Create Shiny UI
 shinyUI(fluidPage(
