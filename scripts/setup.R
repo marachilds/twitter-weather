@@ -1,4 +1,5 @@
 library(streamR)
+library(twitteR)
 library(jsonlite)
 library(rgeos)
 library(rgdal)
@@ -40,11 +41,13 @@ geo_data <- findGeoData()
 # Retrieves a data frame with the number of tweets for a given state, city and day,
 # with tweets by hour.
 twitterData <- function(city, state, day) {
+  # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
   curr.long <- lat.long.df[,1]
   curr.lat <- lat.long.df[,2]
   
-  base.url <- test
+  # Setting up Twitter query
+  
 }
 
 # test variables 
