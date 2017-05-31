@@ -28,6 +28,7 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             )
 
 # Dataset to find latitude and longitude of cities for API call
+# TO-DO: Store this as an environmental variable so you don't have to rebuild this every single time the app is run.
 geo_data <- findGeoData()
 
 ## Twitter authentification credentials 
