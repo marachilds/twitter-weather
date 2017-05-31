@@ -1,5 +1,5 @@
 library(streamR)
-library(twitteR)
+library(rtweet)
 library(jsonlite)
 library(rgeos)
 library(rgdal)
