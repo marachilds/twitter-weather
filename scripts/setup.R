@@ -32,10 +32,10 @@ findLatLong <- function(geo_db, city, state) {
 }
 
 
-# Global Variables 
+# Global Variables (Mara)
 # ----------------
 
-# Options list for states and capital cities (Mara)
+# Options list for states and capital cities
 cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Little Rock, Arkansas", "Sacramento, California", "Denver, Colorado",
             "Hartford, Connecticut", "Dover, Delaware", "Tallahassee, Florida",
@@ -52,6 +52,17 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
             )
 
+# Setting minimum start date
+min.start <- Sys.Date()-6
+
+# Setting maximum start date
+max.start <- Sys.Date()-1
+
+# Setting minimum end date
+min.end <- Sys.Date()
+
+# Setting maximum end date
+max.end <- Sys.Date()-5
 
 # API Calls - Data Retrieval
 # -------------------------
