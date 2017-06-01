@@ -32,35 +32,41 @@ shinyServer(function(input, output) {
   
   selectPlot <- reactive({
   #Tweets = bar chart
+    location <- str_split(input$city, ", ")
+    print(location)
+    state <- state.abb[grep(location[[1]][2], state.name)]
+    print(state)
+    
     if (input$radio == 1) {
-      location <- str_split_fixed(input$city, ", ", 2)
-      #twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
-      return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
-      #return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", 
-              #paste("Number of Tweets on", input$dates, "in", input$city), '13B0E9'))
-  
+      twitter.data <- twitterData(location[[1]][1], state, "2017-05-25", "2017-05-26")
+      return(BuildBarPlot(twitter.data, "hour", "count",
+                           "Time", "Tweets", paste("Tweets on", input$dates, "in", input$city)))
     } else if (input$radio == 2) {
     #Weather = line chart
-      location <- str_split_fixed(input$city, ", ", 2)
-      #weather.data <- weatherData(location[,1], location[,2], input$start.date)
-      return(BuildLinePlot(mtcars, 'hp', 'cyl', "3", "2", "else"))
+      weather.data <- weatherData(location[[1]][1], state, "29 May 2017")
+      return(BuildLinePlot(weather.data, "time", "temperature",
+                           "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
       #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather",
           #paste("Weather on", input$dates, "in", input$city), 'FDE600'))
     } else {
-      plot.1 <- BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title")
-      plot.2 <- BuildLinePlot(mtcars, 'hp', 'cyl', "3", "2", "else")
-      return(BuildRenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, "hp", "1", "3", "Rendered"))
+      plot.1 <- BuildLinePlot(twitter.data, "hourly.range", "freq",
+                              "Time", "Tweets", paste("Tweets on", input$dates, "in", input$city))
+      plot.2 <- BuildLinePlot(weather.data, "time", "temperature",
+                              "Time", "Weather", paste("Weather on", input$dates, "in", input$city))
+      return(BuildRenderPlots(plot.1, weather.data, "temperature", plot.2, twitter.data, "freq",
+                              "Temperature", "Tweets", "Comparison of temperature and tweets"))
     }
 })
   
   output$fooPlot1 <- renderPlotly({
-    renderPrint(selectPlot())
-    pos <- regexpr(input$city, ",")
+    return(selectPlot())
+    # dataInput <- reactive({
+    #   getSymbols(input$city, src = ",", 
+    #              from = input$dates[1],
+    #              to = input$dates[2],
+    #              auto.assign = FALSE)
+    # })
     # weather.data <- weatherData(substring(input$city, 0, pos), substring(input$city, pos), input$dates)
-    weather.data <- weatherData("Portland", "ME", "28 May 2017")
-
-    return(BuildLinePlot(weather.data, "time", "temperature",
-                          "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   
   output$value <- renderPrint({input$start.date})

@@ -28,7 +28,7 @@ shinyUI(fluidPage(
       # Returns 1 (Tweets) or 2 (Weather) or 3 (Both)
       radioButtons("radio", label = "Charts to Display",
                    choices = list("Tweets" = 1, "Weather" = 2, "Both" = 3), 
-                   selected = 1)),
+                   selected = 2)),
     
     # Plot it!
     mainPanel(
@@ -36,13 +36,14 @@ shinyUI(fluidPage(
       tabsetPanel(
         
         # Plot panel
-        tabPanel("Plot", plotlyOutput('fooPlot1', height = "600px", width = "800px")),
-        
-        # Insights panel
-        tabPanel("Insights", textOutput('insights')),
-        
-        # About panel
-        tabPanel("About", textOutput('about'))
+        tabPanel("Plot", plotlyOutput('fooPlot1', height = "600px", width = "800px"))
+        # ,
+        # 
+        # # Insights panel
+        # tabPanel("Insights", textOutput('insights')),
+        # 
+        # # About panel
+        # tabPanel("About", textOutput('about'))
       )
 
       )

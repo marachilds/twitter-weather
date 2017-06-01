@@ -80,7 +80,7 @@ twitter.token <- create_token(
 #     2017-05-28 14:00:00   141
 twitterData <- function(city, state, start_date, end_date) {
   # Retrieves latitude and longitude for the given state and city for API query
-  lat.long.df <- geo_data %>% findLatLong(city, state)
+  lat.long.df <- geo_data %>% findLatLong("Sacramento", "CA")
   longitude <- lat.long.df[,1]
   latitude <- lat.long.df[,2]
 
@@ -88,11 +88,12 @@ twitterData <- function(city, state, start_date, end_date) {
   twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000, since = start_date, until = end_date)
     # Filters dataset to only the column containing the time stamps.
   twitter.df.times <- twitter.df %>% select(created_at)
-  print(twitter.df.times)
   # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
+  twitter.df.times$hour <- as.POSIXlt(twitter.df.times$created_at)$hour
+  twitter.df.times <- twitter.result %>% group_by(hour) %>% summarise(count = n())
   # Creates data frame with the number of tweets (Freq) that occur in each hour.
-  twitter.result <- data.frame(table(hourly.range))
+  twitter.result <- twitter.df.times
   return (twitter.result)
 }
 
@@ -114,10 +115,9 @@ weatherData <- function(city, state, day) {
   
   # Retrieve API key from key.JSON (stored in JSON for security)
   key <- fromJSON(txt = "access-keys.json")$weather$key
-
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
-  weather.uri <- paste0(base.url, key, "/", longitude, ",", latitude, ",", unix.time.day)
+  weather.uri <- paste0(base.url, key, "/", latitude, ",", longitude, ",", unix.time.day)
   weather.params <- list(exclude = paste0("currently", ",", "minutely", ",", "flags"))
 
   # retrieving data from API
