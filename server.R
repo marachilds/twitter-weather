@@ -11,11 +11,13 @@ library(jsonlite)
 library(rgdal)
 library(rtweet)
 library(stringr)
-
+library(rjson)
 
 #scripts
-setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
-source('scripts/BuildBarChart.R', chdir = T) 
+source('scripts/setup.R')
+source('scripts/BuildBarChart.R')
+source('scripts/BuildLineChart.R')
+source('scripts/analysis.R')
 
 # Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
 geo_data <- read.csv("geo_data.csv")
@@ -24,8 +26,8 @@ geo_data <- read.csv("geo_data.csv")
 appname <- "twitter-weather-moscow-mules"
 
 # Retrieving authentication credentials from .json 
-twitter.key <- fromJSON(txt='access-keys.json')$twitter$consumer_key
-twitter.secret <- fromJSON(txt='access-keys.json')$twitter$consumer_secret
+twitter.key <- fromJSON(file = 'access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(file = 'access-keys.json')$twitter$consumer_secret
 
 # create token for authentication
 twitter.token <- create_token(
@@ -35,32 +37,34 @@ twitter.token <- create_token(
 
 # call buildtimeline.R
 shinyServer(function(input, output) {
-
-  #output$mainPlot <- BuildLinePlot(data, x.var, y.var, x.label, y.label, title)
-  #output$mainPlot <- RenderPlots(plot.1, y.var.1, plot.2, y.var.2)
-  location <- str_split_fixed(input$city, ", ", 2)
   
+  selectPlot <- reactive({
   #Tweets = bar chart
+    chart.type <- deparse(substitute(input$chart))
+    if (identical(chart.type, "Tweets")) {
+      location <- str_split_fixed(input$city, ", ", 2)
+      twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
+      return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
+      #return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
+  
+    } else { # if (input$chart == "Weather") {
+    #Weather = line chart
+      location <- str_split_fixed(input$city, ", ", 2)
+      weather.data <- weatherData(location[,1], location[,2], input$start.date)
+      return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
+      #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
+    }
+})
+  
   output$fooPlot1 <- renderPlotly({
-    twitter.data <- twitterData(location$V1, location$V2, input$dates)
-    
-    return(BuildBarPlot(twitter.data, twitter.data$time, twitter.data$ "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
+      print(selectPlot())
   })
   
-  #Weather = line chart
-  output$fooPlot1 <- renderPlotly({
-    weather.data <- weatherData(location$V1, location$V2, input$dates)
-    
-    return(BuildLineChart(weather.data, weather.data[,time], weather.data[,temperature], "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
-  })
-  
-  #both = both
-  # output$fooPlot1 <- renderPlotly({
-  #   return(BuildRenderedChart(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2))
-  # })
-  
-  output$value <- renderPrint({input$dates})
+  output$value <- renderPrint({input$start.date})
+  output$value <- renderPrint({input$end.date})
   output$value <- renderPrint({input$time})
   output$value <- renderPrint({input$city})
   output$value <- renderPrint({input$chart})
+  output$about <- renderText({about})
+  output$insights <- renderText({insights})
 })

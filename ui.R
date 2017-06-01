@@ -3,7 +3,7 @@ library(shiny)
 library(plotly)
 
 # Read in source scripts
-source('./scripts')
+source('./scripts/setup.R')
 
 # Create Shiny UI
 shinyUI(fluidPage(
@@ -17,13 +17,16 @@ shinyUI(fluidPage(
     sidebarPanel(
       
       # Returns YYYY-MM-DD
-      dateInput("dates", "Select Date"),
+      dateInput("start.date", "Select Start Date", min = min.start, max = max.start, value = max.start),
+      
+      # Returns YYYY-MM-DD
+      dateInput("end.date", "Select End Date", min = min.end, max = max.end, value = max.end),
       
       # Returns Capital City, State
       selectInput("city", "Select City", choices = cities),
       
       # Returns Tweets or Weather
-      selectInput("chart", "Select Graphs", choices = c("Tweets", "Weather"))
+      checkboxGroupInput("chart", "Select Graphs", choices = c("Tweets", "Weather"), selected = "Tweets")
       
     ),
     
