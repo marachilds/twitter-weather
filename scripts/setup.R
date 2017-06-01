@@ -82,15 +82,11 @@ twitterData <- function(city, state, start_date, end_date) {
   # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
   longitude <- lat.long.df[,1]
-  print(longitude)
   latitude <- lat.long.df[,2]
-  print(latitude)
-  
+
   # Gets 10000 tweets and other information from specified location from the given time range.
-  twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000)
-  print(twitter.df)
-   #                           since = start_date, until = end_date, usr = "false")
-  # Filters dataset to only the column containing the time stamps.
+  twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000, since = start_date, until = end_date)
+    # Filters dataset to only the column containing the time stamps.
   twitter.df.times <- twitter.df %>% select(created_at)
   print(twitter.df.times)
   # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
