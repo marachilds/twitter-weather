@@ -41,25 +41,12 @@ shinyServer(function(input, output) {
   
   selectPlot <- reactive({
   #Tweets = bar chart
-    if (input$chart == "Tweets") {
-      location <- str_split_fixed(input$city, ", ", 2)
-      #twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
-      return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title", '13B0E9'))
-      #return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", 
-              #paste("Number of Tweets on", input$dates, "in", input$city), '13B0E9'))
-  
-    } else if (input$chart == "Weather") {
-    #Weather = line chart
-      location <- str_split_fixed(input$city, ", ", 2)
-      #weather.data <- weatherData(location[,1], location[,2], input$start.date)
-      return(BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else", 'FDE600'))
-      #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather",
-          #paste("Weather on", input$dates, "in", input$city), 'FDE600'))
-    } else {
+    
       plot.1 <- BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title", '13B0E9')
       plot.2 <- BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else", 'FDE600')
-      return(RenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, "drat"))
-    }
+      return(BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", paste(input$chart, " hey"), 'FDE600'))
+      #return(RenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, paste(input$chart)))
+    
 })
   
   output$fooPlot1 <- renderPlotly({
