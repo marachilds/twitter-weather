@@ -17,10 +17,10 @@ shinyUI(fluidPage(
     sidebarPanel(
       
       # Returns YYYY-MM-DD
-      dateInput("start.date", "Select Start Date", min = min.start, max = max.start),
+      dateInput("start.date", "Select Start Date", min = min.start, max = max.start, value = max.start),
       
       # Returns YYYY-MM-DD
-      dateInput("end.date", "Select End Date", min = min.end, max = max.end),
+      dateInput("end.date", "Select End Date", min = min.end, max = max.end, value = max.end),
       
       # Returns Capital City, State
       selectInput("city", "Select City", choices = cities),
