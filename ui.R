@@ -26,7 +26,7 @@ shinyUI(fluidPage(
       selectInput("city", "Select City", choices = cities),
       
       # Returns Tweets or Weather
-      selectInput("chart", "Select Graphs", choices = c("Tweets", "Weather"))
+      checkboxGroupInput("chart", "Select Graphs", choices = c("Tweets", "Weather"), selected = "Tweets")
       
     ),
     
