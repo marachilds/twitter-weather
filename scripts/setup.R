@@ -91,9 +91,9 @@ twitterData <- function(city, state, start_date, end_date) {
   # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
   twitter.df.times$hour <- as.POSIXlt(twitter.df.times$created_at)$hour
+  twitter.result <- twitter.df.times
   twitter.df.times <- twitter.result %>% group_by(hour) %>% summarise(count = n())
   # Creates data frame with the number of tweets (Freq) that occur in each hour.
-  twitter.result <- twitter.df.times
   return (twitter.result)
 }
 
