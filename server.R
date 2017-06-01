@@ -14,12 +14,8 @@ library(stringr)
 
 
 #scripts
-<<<<<<< HEAD
 source('scripts/setup.R') 
-=======
 #setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
-source('scripts/BuildBarChart.R', chdir = T) 
->>>>>>> f8168ebf4a1a3af6ed3f70edee9b8d3edebff796
 
 # Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
 geo_data <- read.csv("geo_data.csv")
