@@ -66,7 +66,6 @@ max.end <- Sys.Date()-5
 
 # API Calls - Data Retrieval
 # -------------------------
-test <- search_tweets(q = "dog")
 # Retrieves a data frame with the most recent 10000 tweets for a given state and city that were 
 # tweeted between the given start date and end date.
 # Ex: hourly.range          Freq
