@@ -1,39 +1,29 @@
 # server.R
 
-#libraries
-library(anytime)
-library(shiny)
+# libraries
+## Dependencies for setup.R
 library(dplyr)
+library(anytime)
+library(jsonlite)
+library(rgeos)
+library(rgdal)
+library(rtweet) 
+
+library(shiny)
 library(plotly)
 library(httr)
-library(rgeos)
-library(jsonlite)
-library(rgdal)
-library(rtweet)
 library(stringr)
 
 #scripts
+
 source('scripts/setup.R')
 source('scripts/BuildBarChart.R')
 source('scripts/BuildLineChart.R')
 source('scripts/analysis.R')
 source('scripts/BuildRenderedChart.R')
 
-# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
-geo_data <- read.csv("geo_data.csv")
 
-## Twitter authentification credentials 
-appname <- "twitter-weather-moscow-mules"
-
-# Retrieving authentication credentials from .json 
-twitter.key <- fromJSON(file = 'access-keys.json')$twitter$consumer_key
-twitter.secret <- fromJSON(file = 'access-keys.json')$twitter$consumer_secret
-
-# create token for authentication
-twitter.token <- create_token(
-  app = appname,
-  consumer_key = twitter.key,
-  consumer_secret = twitter.secret)
+test <- weatherData("Portland", "ME", "28 May 2017")
 
 # call buildtimeline.R
 shinyServer(function(input, output) {

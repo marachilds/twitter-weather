@@ -65,14 +65,14 @@ min.end <- Sys.Date()-5
 max.end <- Sys.Date()
 
 # Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
-geo_data <- read.csv("geo_data.csv")
+geo_data <- read.csv("scripts/geo_data.csv")
 
 ## Twitter authentification credentials 
 appname <- "twitter-weather-moscow-mules"
 
 # Retrieving authentication credentials from .json 
-twitter.key <- fromJSON(file = 'access-keys.json')$twitter$consumer_key
-twitter.secret <- fromJSON(file = 'access-keys.json')$twitter$consumer_secret
+twitter.key <- fromJSON(txt = 'access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(txt = 'access-keys.json')$twitter$consumer_secret
 
 # create token for authentication
 twitter.token <- create_token(
@@ -122,7 +122,7 @@ weatherData <- function(city, state, day) {
   unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
-  key <- fromJSON(file = "access-keys.json")$weather$key
+  key <- fromJSON(txt = "access-keys.json")$weather$key
 
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
@@ -144,7 +144,6 @@ weatherData <- function(city, state, day) {
   weather.df$temperature <- weather.df$temperature * (9/5) + 32
   
   weather.df <- weather.df %>% select(temperature, time)
-  weather.df[,temperature]
   return(weather.df) 
 }
 
