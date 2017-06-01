@@ -18,6 +18,7 @@ source('scripts/setup.R')
 source('scripts/BuildBarChart.R')
 source('scripts/BuildLineChart.R')
 source('scripts/analysis.R')
+source('scripts/BuildRenderedChart.R')
 
 # Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
 geo_data <- read.csv("geo_data.csv")
@@ -55,7 +56,9 @@ shinyServer(function(input, output) {
       #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather",
           #paste("Weather on", input$dates, "in", input$city), 'FDE600'))
     } else {
-      return(BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else"))
+      plot.1 <- BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title", '13B0E9')
+      plot.2 <- BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else", 'FDE600')
+      return(RenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, "drat"))
     }
 })
   

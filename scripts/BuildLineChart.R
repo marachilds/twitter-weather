@@ -14,7 +14,6 @@ BuildLinePlot <- function(data, x.var, y.var, x.label, y.label, title, color.var
                y = data[[y.var]],
                type = "scatter",
                marker = list(size = 20,
-                             color = data[[color.var]],
                              line = list(color = 'rgba(0, 0, 0, .8)',
                                          width = 2),
                              opacity = 0.7)) %>%

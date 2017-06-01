@@ -12,9 +12,7 @@ BuildBarPlot <- function(data, x.var, y.var, x.label, y.label, title, color.var)
   p <- plot_ly(data = data,
     x = data[[x.var]],
     y = data[[y.var]],
-    type = "bar",
-    color = color.var
-  ) %>%
+    type = "bar") %>%
     layout(
       title = title,
       xaxis = list(title = x.label),

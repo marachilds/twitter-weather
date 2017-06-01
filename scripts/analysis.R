@@ -18,13 +18,13 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
           Questions? Reach out—michilds@uw.edu."
 
 # variables
-city <- user.input
-highest.temp <- summarize(data, highest = max(temperature))
-lowest.temp <- summarize(data, lowest = min(temperature))
-num.tweets <- filter(data, data = input.date)
-
-# Insights section text
-insights <- paste0("In this city of ", city, " The highest temperature reached was ",
-                   highest.temp, " degrees Farenheit. The lowest temperature reached was ",
-                   lowest.temp, " degrees Farenheit. At this time there were about",
-                   num.tweets, "tweets total.")
+# city <- user.input
+# highest.temp <- summarize(data, highest = max(temperature))
+# lowest.temp <- summarize(data, lowest = min(temperature))
+# num.tweets <- filter(data, data = input.date)
+# 
+# # Insights section text
+# insights <- paste0("In this city of ", city, " The highest temperature reached was ",
+#                    highest.temp, " degrees Farenheit. The lowest temperature reached was ",
+#                    lowest.temp, " degrees Farenheit. At this time there were about",
+#                    num.tweets, "tweets total.")
