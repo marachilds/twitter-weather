@@ -17,13 +17,14 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
 
           Questions? Reach out—michilds@uw.edu."
 
-# Insights section variables to reference
-#var1 <- "example"
+# variables
+city <- user.input
+highest.temp <- summarize(data, highest = max(temperature))
+lowest.temp <- summarize(data, lowest = min(temperature))
+num.tweets <- filter(data, data = input.date)
 
 # Insights section text
-
-# Esha - this is just an example. The final text does need to be called 'insights' so the server can render it.
-# Perhaps we can do like highest temp, what city it was in, and how many tweets when it happened.
-# Same for lowest temp/city/number of tweets.
-# I think it's also fine to keep this fairly basic since it was supposed to be done by our 5th group member.
-insights <- paste0("The highest temperature reached was")
+insights <- paste0("In this city of ", city, " The highest temperature reached was ",
+                   highest.temp, " degrees Farenheit. The lowest temperature reached was ",
+                   lowest.temp, " degrees Farenheit. At this time there were about",
+                   num.tweets, "tweets total.")
