@@ -40,19 +40,20 @@ shinyServer(function(input, output) {
   
   selectPlot <- reactive({
   #Tweets = bar chart
-    chart.type <- deparse(substitute(input$chart))
-    if (identical(chart.type, "Tweets")) {
+    if (input$chart == "Tweets") {
       location <- str_split_fixed(input$city, ", ", 2)
-      twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
+      #twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
       return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
       #return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
   
-    } else { # if (input$chart == "Weather") {
+    } else if (input$chart == "Weather") {
     #Weather = line chart
       location <- str_split_fixed(input$city, ", ", 2)
-      weather.data <- weatherData(location[,1], location[,2], input$start.date)
-      return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
+      #weather.data <- weatherData(location[,1], location[,2], input$start.date)
+      return(BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else"))
       #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
+    } else {
+      #both
     }
 })
   

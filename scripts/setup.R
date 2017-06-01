@@ -105,7 +105,7 @@ weatherData <- function(city, state, day) {
   unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
-  key <- fromJSON(txt = "access-keys.json")$weather$key
+  key <- fromJSON(file = "access-keys.json")$weather$key
 
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
