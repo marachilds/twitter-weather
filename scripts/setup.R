@@ -6,15 +6,6 @@ library(httr)
 library(dplyr)
 library(anytime)
 
-# Test Variables (delete before launch!)
-# --------------------------------------
-start_date <- "2017-05-28"
-end_date <- "2017-05-29"
-city <- "Portland"
-state <- "ME"
-day <- "2017-05-28"
-
-
 # Latitude & Longitude Retrieval for API Calls
 # --------------------------------------------
 # Code for findLatLong and findGeoData sourced from: 
@@ -64,6 +55,23 @@ min.end <- Sys.Date()-5
 # Setting maximum end date
 max.end <- Sys.Date()
 
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
+geo_data <- read.csv("scripts/geo_data.csv")
+
+## Twitter authentification credentials 
+appname <- "twitter-weather-moscow-mules"
+
+# Retrieving authentication credentials from .json 
+twitter.key <- fromJSON(txt = 'access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(txt = 'access-keys.json')$twitter$consumer_secret
+
+# create token for authentication
+twitter.token <- create_token(
+  app = appname,
+  consumer_key = twitter.key,
+  consumer_secret = twitter.secret)
+
+
 # API Calls - Data Retrieval
 # -------------------------
 # Retrieves a data frame with the most recent 10000 tweets for a given state and city that were 
@@ -75,12 +83,12 @@ twitterData <- function(city, state, start_date, end_date) {
   lat.long.df <- geo_data %>% findLatLong(city, state)
   longitude <- lat.long.df[,1]
   latitude <- lat.long.df[,2]
-  
+
   # Gets 10000 tweets and other information from specified location from the given time range.
-  twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000, 
-                              since = start_date, until = end_date, usr = "false")
-  # Filters dataset to only the column containing the time stamps.
+  twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000, since = start_date, until = end_date)
+    # Filters dataset to only the column containing the time stamps.
   twitter.df.times <- twitter.df %>% select(created_at)
+  print(twitter.df.times)
   # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
   # Creates data frame with the number of tweets (Freq) that occur in each hour.
@@ -105,7 +113,7 @@ weatherData <- function(city, state, day) {
   unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
-  key <- fromJSON(file = "access-keys.json")$weather$key
+  key <- fromJSON(txt = "access-keys.json")$weather$key
 
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"

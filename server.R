@@ -31,16 +31,27 @@ test <- weatherData("Portland", "ME", "28 May 2017")
 shinyServer(function(input, output) {
   
   selectPlot <- reactive({
+<<<<<<< HEAD
     #Tweets = bar chart
+=======
+  #Tweets = bar chart
+>>>>>>> 31e40015e2f56536137f34bb192cc0158aedde32
     if (input$radio == 1) {
       location <- str_split_fixed(input$city, ", ", 2)
       #twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
       return(BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title"))
       #return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", 
+<<<<<<< HEAD
       #paste("Number of Tweets on", input$dates, "in", input$city), '13B0E9'))
       
     } else if (input$radio == 2) {
       #Weather = line chart
+=======
+              #paste("Number of Tweets on", input$dates, "in", input$city), '13B0E9'))
+  
+    } else if (input$radio == 2) {
+    #Weather = line chart
+>>>>>>> 31e40015e2f56536137f34bb192cc0158aedde32
       location <- str_split_fixed(input$city, ", ", 2)
       #weather.data <- weatherData(location[,1], location[,2], input$start.date)
       return(BuildLinePlot(mtcars, 'hp', 'cyl', "3", "2", "else"))
@@ -58,7 +69,12 @@ shinyServer(function(input, output) {
     location <- strsplit(input$city, ", ")
     weather.data <- weatherData(location[[1]][1], location[[1]][2], input$dates)
     
-    return(BuildLineChart(weather.data, "time", "temperature",
+    #return(BuildLinePlot(weather.data, "time", "temperature"))
+    pos <- regexpr(input$city, ",")
+    # weather.data <- weatherData(substring(input$city, 0, pos), substring(input$city, pos), input$dates)
+    weather.data <- weatherData("Portland", "ME", "28 May 2017")
+
+    return(BuildLinePlot(weather.data, "time", "temperature",
                           "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   

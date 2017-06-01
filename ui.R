@@ -25,10 +25,10 @@ shinyUI(fluidPage(
       # Returns Capital City, State
       selectInput("city", "Select City", choices = cities),
       
-      # Returns Tweets or Weather
-      checkboxGroupInput("chart", "Select Graphs", choices = c("Tweets", "Weather"), selected = "Tweets")
-      
-    ),
+      # Returns 1 (Tweets) or 2 (Weather) or 3 (Both)
+      radioButtons("radio", label = "Charts to Display",
+                   choices = list("Tweets" = 1, "Weather" = 2, "Both" = 3), 
+                   selected = 1)),
     
     # Plot it!
     mainPanel(
