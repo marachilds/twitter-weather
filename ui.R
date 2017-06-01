@@ -36,7 +36,9 @@ shinyUI(fluidPage(
       tabsetPanel(
         
         # Plot panel
-        tabPanel("Plot", plotlyOutput('fooPlot1', height = "600px", width = "800px"))
+        tabPanel("Plot", plotlyOutput('fooPlot1', height = "600px", width = "800px")),
+        
+        tabPanel("About", textOutput('about'))
         # ,
         # 
         # # Insights panel

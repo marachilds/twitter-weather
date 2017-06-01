@@ -1,0 +1,10 @@
+name: twitter-weather
+title: twitter-weather
+account: marachilds
+server: shinyapps.io
+appId: 185537
+bundleId: 849453
+url: https://marachilds.shinyapps.io/twitter-weather/
+when: 1496348657.4053
+asMultiple: FALSE
+asStatic: FALSE
