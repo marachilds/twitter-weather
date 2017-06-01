@@ -38,28 +38,30 @@ shinyServer(function(input, output) {
   
   selectPlot <- reactive({
   #Tweets = bar chart
-  if (input$chart == "Tweets") {
-    location <- str_split_fixed(input$city, ", ", 2) 
-    twitter.data <- twitterData(location[,1], location[,2], input$dates)
-    return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
+    if (input$chart == "Tweets") {
+      location <- str_split_fixed(input$city, ", ", 2)
+      twitter.data <- twitterData(location[,1], location[,2], input$start.date, input$end.date)
+      return(BuildBarPlot(twitter.data, twitter.data[,time], twitter.data[,freq], "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
   
     } else if (input$chart == "Weather") {
-  #Weather = line chart
+    #Weather = line chart
       location <- str_split_fixed(input$city, ", ", 2)
-      weather.data <- weatherData(location[,1], location[,2], input$dates)
+      weather.data <- weatherData(location[,1], location[,2], input$start.date)
       return(BuildLineChart(weather.data, weather.data[,time], weather.data[,temperature], "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
- 
+  
     } else {
     #both = both
       return(BuildRenderedChart(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2))
-  }
-  })
+    }
+    
+})
   
   output$fooPlot1 <- renderPlotly({
       print(selectPlot())
-    })
+  })
   
-  output$value <- renderPrint({input$dates})
+  output$value <- renderPrint({input$start.date})
+  output$value <- renderPrint({input$end.date})
   output$value <- renderPrint({input$time})
   output$value <- renderPrint({input$city})
   output$value <- renderPrint({input$chart})
