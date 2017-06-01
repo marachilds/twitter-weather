@@ -41,7 +41,7 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
             "Pierre, South Dakota", "Nashville, Tennessee", "Austin, Texas", "Salt Lake City, Utah",
             "Montpelier, Vermont", "Richmond, Virginia", "Olympia, Washington", "Charleston, West Virginia",
             "Madison, Wisconsin", "Cheyenne, Wyoming"
-            )
+)
 
 # Setting minimum start date
 min.start <- Sys.Date()-6
