@@ -55,10 +55,11 @@ shinyServer(function(input, output) {
   
   output$fooPlot1 <- renderPlotly({
     renderPrint(selectPlot())
-    location <- strsplit(input$city, ", ")
-    weather.data <- weatherData(location[[1]][1], location[[1]][2], input$dates)
+    pos <- regexpr(input$city, ",")
+    # weather.data <- weatherData(substring(input$city, 0, pos), substring(input$city, pos), input$dates)
+    weather.data <- weatherData("Portland", "ME", "28 May 2017")
 
-    return(BuildLineChart(weather.data, "time", "temperature",
+    return(BuildLinePlot(weather.data, "time", "temperature",
                           "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   
