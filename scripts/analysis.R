@@ -14,6 +14,9 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
 
           Questions? Reach out—michilds@uw.edu."
 
+# Insights section variables to reference
+var1 <- "example"
+
 # Insights section text
 
 # Esha - this is just an example. The final text does need to be called 'insights' so the server can render it.
