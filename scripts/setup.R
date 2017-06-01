@@ -127,6 +127,7 @@ weatherData <- function(city, state, day) {
   weather.df$temperature <- weather.df$temperature * (9/5) + 32
   
   weather.df <- weather.df %>% select(temperature, time)
+  weather.df[,temperature]
   return(weather.df) 
 }
 
