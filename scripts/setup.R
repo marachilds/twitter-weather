@@ -6,6 +6,14 @@ library(httr)
 library(dplyr)
 library(anytime)
 
+# Test Variables (delete before launch!)
+# --------------------------------------
+start_date <- "2017-05-29"
+end_date <- "2017-05-29"
+city <- "Portland"
+state <- "ME"
+day <- "2017-05-28"
+
 
 # Latitude & Longitude Retrieval for API Calls
 # --------------------------------------------
@@ -23,26 +31,6 @@ findLatLong <- function(geo_db, city, state) {
   }, city, state, SIMPLIFY=FALSE))
 }
 
-
-
-findGeoData <- function() {
-  try({
-    GET("http://www.mapcruzin.com/fcc-wireless-shapefiles/cities-towns.zip",
-        write_disk("cities.zip"))
-    unzip("cities.zip", exdir="cities") })
-  
-  # reads in shape file from URL
-  shp <- readOGR("cities/citiesx020.shp", "citiesx020")
-  
-  # extract city centroids from shape file with name and state
-  geo.data <- 
-    gCentroid(shp, byid = TRUE) %>%
-    data.frame() %>%
-    rename(lon = x, lat = y) %>%
-    mutate(city = shp@data$NAME, state = shp@data$STATE)
-  
-  return(geo.data)
-}
 
 # Global Variables 
 # ----------------
@@ -67,35 +55,26 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
 
 # API Calls - Data Retrieval
 # -------------------------
-# TO-DO: Twitter API - adjust twitterData to get tweets from specific day
-     # What range should we do for our search in miles?
-     # How many tweets should we retrieve to ensure that we're getting all of them? 
-        ## See retryonratelimit for search_tweets in rtweet documentation for more info on getting more than 18000 tweets
-     # Are there any other libraries that can help retrieve tweets from a specific date range or specific time? No historical data available...
 
-
-# Retrieves a data frame with the number of tweets for a given state and city. 
-# Currently retrieves up to 18000 tweets from the last 6-9 days within 5 miles of the 
-# specified location's latitude and longitude. 
-twitterData <- function(city, state, day) {
+# Retrieves a data frame with the most recent 10000 tweets for a given state and city that were 
+# tweeted between the given start date and end date.
+twitterData <- function(city, state, start_date, end_date) {
   # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
   longitude <- lat.long.df[,1]
   latitude <- lat.long.df[,2]
   
-  # Gets tweets from specified location and radius. 
-  # Change "5mi" if you want a different area of query; change n to get different number of tweets
-  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","10mi"), n = 1000) ## This takes like 5 minutes...
+  # Gets 10000 tweets and other information from specified location from the given time range.
+  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","30mi"), n = 10000, 
+                              since = start_date, until = end_date, type="recent", usr = "false")
+  # Filters dataset to only the column containing the time stamps.
   twitter.df.times <- twitter.df %>% select(created_at)
+  # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
   hourly.range <- cut(twitter.df$created_at, breaks="hour")
+  # Creates data frame with the number of tweets (Freq) that occur in each hour.
   twitter.result <- data.frame(table(hourly.range))
   return (twitter.result)
 }
-
-# test variables 
-city <- "Portland"
-state <- "ME"
-day <- "2017-05-28"
 
 # Retrieves a data frame with weather data for the specified day with the given city and state,
 # with hourly time block starting from midnight of the day requested, 
@@ -125,6 +104,7 @@ weatherData <- function(city, state, day) {
   weather.body <- content(weather.response, "text")
   weather.results <- fromJSON(weather.body)
   
+  # Gets data sorted by hour
   weather.df <- weather.results$hourly$data
   
   # convert UNIX time to Dates
