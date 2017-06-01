@@ -1,6 +1,7 @@
 # Days since state's capital city has been over a certain temperature (count)
 
 source("scripts/setup.R")
+library(dplyr)
 # analysis.R
 
 # About section text
@@ -18,13 +19,15 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
           Questions? Reach out—michilds@uw.edu."
 
 # variables
-# city <- user.input
-# highest.temp <- summarize(data, highest = max(temperature))
-# lowest.temp <- summarize(data, lowest = min(temperature))
-# num.tweets <- filter(data, data = input.date)
-# 
-# # Insights section text
-# insights <- paste0("In this city of ", city, " The highest temperature reached was ",
-#                    highest.temp, " degrees Farenheit. The lowest temperature reached was ",
-#                    lowest.temp, " degrees Farenheit. At this time there were about",
-#                    num.tweets, "tweets total.")
+PrintInsights <- function(user.input.city, user.input.state, user.input.date, weather.data, tweets.data) {
+  highest.temp <- summarize(weather.data, highest = max(temperature))
+  lowest.temp <- summarize(weather.data, lowest = min(temperature))
+  num.tweets <- filter(tweets.data, date == user.input.date) %>% select(number.of.tweets)
+  
+  # Insights section text
+  insights <- paste0("In the city of ", user.input.city, " in ", user.input.state, " the highest temperature reached was ",
+                     highest.temp, " degrees Farenheit, the lowest temperature reached was ",
+                     lowest.temp, " degrees Farenheit. At this time there were about",
+                     num.tweets, " tweets total.")
+  return(insights)
+}
