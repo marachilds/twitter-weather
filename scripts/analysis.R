@@ -1,8 +1,6 @@
-<<<<<<< HEAD
 # Days since state's capital city has been over a certain temperature (count)
 
-source("/scripts/setup.R")
-=======
+source("scripts/setup.R")
 # analysis.R
 
 # About section text
@@ -20,7 +18,7 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
           Questions? Reach out—michilds@uw.edu."
 
 # Insights section variables to reference
-var1 <- "example"
+#var1 <- "example"
 
 # Insights section text
 
@@ -28,5 +26,4 @@ var1 <- "example"
 # Perhaps we can do like highest temp, what city it was in, and how many tweets when it happened.
 # Same for lowest temp/city/number of tweets.
 # I think it's also fine to keep this fairly basic since it was supposed to be done by our 5th group member.
-insights <- paste0("The highest temperature reached was", var1, "")
->>>>>>> a9edecbd50aba236292d66e3c2272eb32956276f
+insights <- paste0("The highest temperature reached was")
