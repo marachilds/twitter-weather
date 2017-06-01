@@ -20,5 +20,10 @@ BuildRenderPlots <- function(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2) {
                                  line = list(color = 'rgba(0, 0, 0, .8)',
                                              width = 2),
                                  opacity = 0.7))
-  return(subplot(plot.1, plot.2, plot.3, shareX = TRUE))
+  return(subplot(plot.1, plot.2, plot.3))
 }
+
+plot1 <- BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title")
+plot2 <- BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else")
+
+BuildRenderPlots(plot.1 =  plot1, data.1 =  mtcars, y.var.1 =  "mpg", plot.2 =  plot2, data.2 =  mtcars, y.var.2 =  "hp")
