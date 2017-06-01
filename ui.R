@@ -34,7 +34,15 @@ shinyUI(fluidPage(
     # Plot it!
     mainPanel(
       
-      plotlyOutput('fooPlot1', height = "600px", width = "800px")
+      tabsetPanel(
+        
+        # 
+        tabPanel("Plot", plotlyOutput('fooPlot1', height = "600px", width = "800px")),
+        
+        tabPanel("Summary", verbatimTextOutput("summary")),
+        
+        tabPanel("Table", tableOutput("table"))
+      )
 
       )
     )
