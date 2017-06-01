@@ -31,3 +31,6 @@ PrintInsights <- function(user.input.city, user.input.state, user.input.date, we
                      num.tweets, " tweets total.")
   return(insights)
 }
+
+text <- "Miami, Florida"
+text.split <- strsplit(text, ", ")
