@@ -10,10 +10,11 @@ library(rgeos)
 library(jsonlite)
 library(rgdal)
 library(rtweet)
+library(stringr)
 
 
 #scripts
-#setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
+setwd('~/Documents/College/Sophomore (2016-2017)/Spring Quarter/INFO201/twitter-weather')
 source('scripts/BuildBarChart.R', chdir = T) 
 
 # Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
@@ -45,13 +46,16 @@ shinyServer(function(input, output) {
   
   #Weather = line chart
   output$fooPlot1 <- renderPlotly({
-    return(BuildLineChart(dataset, twi, 'drat', "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
+    location <- str_split_fixed(input$city, ", ", 2)
+    weather.data <- weatherData(location$V1, location$V2, input$dates)
+    
+    return(BuildLineChart(weather.data, weather.data$, weather.data$, "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   
   #both = both
-  output$fooPlot1 <- renderPlotly({
-    return(BuildRenderedChart(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2))
-  })
+  # output$fooPlot1 <- renderPlotly({
+  #   return(BuildRenderedChart(plot.1, data.1, y.var.1, plot.2, data.2, y.var.2))
+  # })
   
   output$value <- renderPrint({input$dates})
   output$value <- renderPrint({input$time})
