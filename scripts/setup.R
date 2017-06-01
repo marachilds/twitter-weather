@@ -64,6 +64,23 @@ min.end <- Sys.Date()-5
 # Setting maximum end date
 max.end <- Sys.Date()
 
+# Retrieves dataset for towns and cities in Canada/US with latitudinal and longitudinal data for API calls
+geo_data <- read.csv("geo_data.csv")
+
+## Twitter authentification credentials 
+appname <- "twitter-weather-moscow-mules"
+
+# Retrieving authentication credentials from .json 
+twitter.key <- fromJSON(file = 'access-keys.json')$twitter$consumer_key
+twitter.secret <- fromJSON(file = 'access-keys.json')$twitter$consumer_secret
+
+# create token for authentication
+twitter.token <- create_token(
+  app = appname,
+  consumer_key = twitter.key,
+  consumer_secret = twitter.secret)
+
+
 # API Calls - Data Retrieval
 # -------------------------
 # Retrieves a data frame with the most recent 10000 tweets for a given state and city that were 

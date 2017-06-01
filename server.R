@@ -11,7 +11,6 @@ library(jsonlite)
 library(rgdal)
 library(rtweet)
 library(stringr)
-library(rjson)
 
 #scripts
 source('scripts/setup.R')
