@@ -35,22 +35,20 @@ twitter.token <- create_token(
 
 # call buildtimeline.R
 shinyServer(function(input, output) {
-
-  #output$mainPlot <- BuildLinePlot(data, x.var, y.var, x.label, y.label, title)
-  #output$mainPlot <- RenderPlots(plot.1, y.var.1, plot.2, y.var.2)
-  location <- str_split_fixed(input$city, ", ", 2)
   
   #Tweets = bar chart
-  output$fooPlot1 <- renderPlotly({
-    twitter.data <- twitterData(location$V1, location$V2, input$dates)
-    
-    return(BuildBarPlot(twitter.data, twitter.data$time, twitter.data$ "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
-  })
+  # output$fooPlot1 <- renderPlotly({
+  #   location <- str_split_fixed(input$city, ", ", 2) 
+  #   twitter.data <- twitterData(location$V1, location$V2, input$dates)
+  #    
+  #    return(BuildBarPlot(twitter.data, twitter.data$time, twitter.data$freq, "Time", "Tweets", paste("Number of Tweets on", input$dates, "in", input$city)))
+  # })
   
   #Weather = line chart
   output$fooPlot1 <- renderPlotly({
-    weather.data <- weatherData(location$V1, location$V2, input$dates)
-    
+    location <- str_split_fixed(input$city, ", ", 2)
+    weather.data <- weatherData(location[,1], location[,2], input$dates)
+
     return(BuildLineChart(weather.data, weather.data[,time], weather.data[,temperature], "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   
