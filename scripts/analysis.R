@@ -22,7 +22,7 @@ about <- "This is a project created by Mara Childs, Isabel Giang, Nikhila Iyer, 
 PrintInsights <- function(user.input.city, user.input.state, user.input.date, weather.data, tweets.data) {
   highest.temp <- summarize(weather.data, highest = max(temperature))
   lowest.temp <- summarize(weather.data, lowest = min(temperature))
-  num.tweets <- filter(tweets.data, date == user.input.date) %>% select(number.of.tweets)
+  num.tweets <- filter(tweets.data, time == user.input.date) %>% select(number.of.tweets)
   
   # Insights section text
   insights <- paste0("In the city of ", user.input.city, " in ", user.input.state, " the highest temperature reached was ",

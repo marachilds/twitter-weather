@@ -25,7 +25,7 @@ source('scripts/BuildRenderedChart.R')
 
 test <- weatherData("Portland", "ME", "28 May 2017")
 # twitterData(city, state, start_date, end_date)
-test2 <- twitterData("Portland", "ME", "2017-05-25", "2017-05-26")
+# test2 <- twitterData("Portland", "ME", "2017-05-25", "2017-05-26")
 
 # call buildtimeline.R
 shinyServer(function(input, output) {
@@ -55,10 +55,11 @@ shinyServer(function(input, output) {
   
   output$fooPlot1 <- renderPlotly({
     print(selectPlot())
-    location <- str_split_fixed(input$city, ", ", 2)
-    weather.data <- weatherData(location[,1], location[,2], input$dates)
+    location <- strsplit(input$city, ", ")
+    weather.data <- weatherData(location[1], location[2], input$dates)
 
-    return(BuildLineChart(weather.data, weather.data[weather.data$time], weather.data[weather.data$temperature], "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
+    return(BuildLineChart(weather.data, "time", "temperature",
+                          "Time", "Weather", paste("Weather on", input$dates, "in", input$city)))
   })
   
   output$value <- renderPrint({input$start.date})
