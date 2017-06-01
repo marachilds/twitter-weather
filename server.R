@@ -24,6 +24,8 @@ source('scripts/BuildRenderedChart.R')
 
 
 test <- weatherData("Portland", "ME", "28 May 2017")
+# twitterData(city, state, start_date, end_date)
+test2 <- twitterData("Portland", "ME", "2017-05-25", "2017-05-26")
 
 # call buildtimeline.R
 shinyServer(function(input, output) {
