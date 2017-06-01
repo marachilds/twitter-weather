@@ -9,6 +9,7 @@ library(httr)
 library(rgeos)
 library(jsonlite)
 library(rgdal)
+library(rtweet)
 
 
 #scripts
@@ -38,7 +39,7 @@ shinyServer(function(input, output) {
   #output$mainPlot <- RenderPlots(plot.1, y.var.1, plot.2, y.var.2)
   
   output$fooPlot1 <- renderPlotly({
-    return(BuildBarPlot(mtcars, 'hp', 'drat', "MPG", "CYL", "mpg v cyl"))
+    return(BuildBarPlot(dataset, twi, 'drat', "MPG", "CYL", "mpg v cyl"))
   })
   
   output$value <- renderPrint({input$dates})
