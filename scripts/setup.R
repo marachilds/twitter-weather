@@ -27,21 +27,21 @@ findLatLong <- function(geo_db, city, state) {
 # ----------------
 
 # Options list for states and capital cities
-cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
-            "Little Rock, Arkansas", "Sacramento, California", "Denver, Colorado",
-            "Hartford, Connecticut", "Dover, Delaware", "Tallahassee, Florida",
-            "Atlanta, Georgia", "Honolulu, Hawaii", "Boise, Idaho", "Springfield, Illinois",
-            "Indianapolis, Indiana", "Des Moines, Iowa", "Topeka, Kansas", "Frankfort, Kentucky", 
-            "Baton Rouge, Louisiana", "Augusta, Maine", "Annapolis, Maryland", "Boston, Massachusetts", 
-            "Lansing, Michigan", "St. Paul, Minnesota", "Jackson, Mississippi", "Jefferson City, Missouri",
-            "Helena, Montana", "Lincoln, Nebraska", "Carson City, Nevada", "Concord, New Hampshire",
-            "Trenton, New Jersey", "Santa Fe, New Mexico", "Albany, New York", "Raleigh, North Carolina",
-            "Bismarck, North Dakota", "Columbus, Ohio", "Oklahoma City, Oklahoma", "Salem, Oregon",  
-            "Harrisburg, Pennsylvania", "Providence, Rhode Island", "Columbia, South Carolina",
-            "Pierre, South Dakota", "Nashville, Tennessee", "Austin, Texas", "Salt Lake City, Utah",
-            "Montpelier, Vermont", "Richmond, Virginia", "Olympia, Washington", "Charleston, West Virginia",
-            "Madison, Wisconsin", "Cheyenne, Wyoming"
-            )
+cities <- c("Montgomery, AL", "Juneau, AK", "Phoenix, AZ",
+            "Little Rock, AR", "Sacramento, CA", "Denver, CO",
+            "Hartford, CT", "Dover, DE", "Tallahassee, FL",
+            "Atlanta, GA", "Honolulu, HI", "Boise, ID", "Springfield, IL",
+            "Indianapolis, IN", "Des Moines, IA", "Topeka, KS", "Frankfort, KY", 
+            "Baton Rouge, LA", "Augusta, ME", "Annapolis, MD", "Boston, MA", 
+            "Lansing, MI", "St. Paul, MN", "Jackson, MS", "Jefferson City, MO",
+            "Helena, MT", "Lincoln, NE", "Carson City, NV", "Concord, NH",
+            "Trenton, NJ", "Santa Fe, NM", "Albany, NY", "Raleigh, NC",
+            "Bismarck, ND", "Columbus, OH", "Oklahoma City, OK", "Salem, OR",  
+            "Harrisburg, PA", "Providence, RI", "Columbia, SC",
+            "Pierre, SD", "Nashville, TN", "Austin, TX", "Salt Lake City, UT",
+            "Montpelier, VT", "Richmond, VA", "Olympia, WA", "Charleston, WV",
+            "Madison, WI", "Cheyenne, WY"
+)
 
 # Setting minimum start date
 min.start <- Sys.Date()-6
