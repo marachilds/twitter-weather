@@ -59,10 +59,10 @@ min.start <- Sys.Date()-6
 max.start <- Sys.Date()-1
 
 # Setting minimum end date
-min.end <- Sys.Date()
+min.end <- Sys.Date()-5
 
 # Setting maximum end date
-max.end <- Sys.Date()-5
+max.end <- Sys.Date()
 
 # API Calls - Data Retrieval
 # -------------------------
