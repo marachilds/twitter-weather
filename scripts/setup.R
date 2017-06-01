@@ -8,7 +8,7 @@ library(anytime)
 
 # Test Variables (delete before launch!)
 # --------------------------------------
-start_date <- "2017-05-29"
+start_date <- "2017-05-28"
 end_date <- "2017-05-29"
 city <- "Portland"
 state <- "ME"
@@ -55,9 +55,11 @@ cities <- c("Montgomery, Alabama", "Juneau, Alaska", "Phoenix, Arizona",
 
 # API Calls - Data Retrieval
 # -------------------------
-
+test <- search_tweets(q = "dog")
 # Retrieves a data frame with the most recent 10000 tweets for a given state and city that were 
 # tweeted between the given start date and end date.
+# Ex: hourly.range          Freq
+#     2017-05-28 14:00:00   141
 twitterData <- function(city, state, start_date, end_date) {
   # Retrieves latitude and longitude for the given state and city for API query
   lat.long.df <- geo_data %>% findLatLong(city, state)
@@ -65,8 +67,8 @@ twitterData <- function(city, state, start_date, end_date) {
   latitude <- lat.long.df[,2]
   
   # Gets 10000 tweets and other information from specified location from the given time range.
-  twitter.df <- search_tweets(q = " ", geocode=paste0(latitude, ",", longitude, ",","30mi"), n = 10000, 
-                              since = start_date, until = end_date, type="recent", usr = "false")
+  twitter.df <- search_tweets(q = " ", geocode = paste0(latitude, ",", longitude, ",","20mi"), n = 10000, 
+                              since = start_date, until = end_date, usr = "false")
   # Filters dataset to only the column containing the time stamps.
   twitter.df.times <- twitter.df %>% select(created_at)
   # Generates an hourly range (all of the hours that the tweets occur in) to sort the data by
@@ -80,7 +82,8 @@ twitterData <- function(city, state, start_date, end_date) {
 # with hourly time block starting from midnight of the day requested, 
 # continuing until midnight of the following day. Hourly time blocks start from the current system time.
 # input format: weatherData("Portland", "ME", "28 May 2017"), multiple Date formats should work
-
+# Ex: temperature     time
+#     45.3690         2017-05-27 14:00:00
 weatherData <- function(city, state, day) {
   
   # Retrieve latitude and longitude for given city and state
@@ -92,7 +95,7 @@ weatherData <- function(city, state, day) {
   unix.time.day <- as.numeric(as.POSIXct(anydate(day)))
   
   # Retrieve API key from key.JSON (stored in JSON for security)
-  key <- fromJSON(file="access-keys.json")$weather$key
+  key <- fromJSON(txt = "access-keys.json")$weather$key
 
   # setting params for API  call
   base.url <- "https://api.darksky.net/forecast/"
