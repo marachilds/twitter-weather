@@ -52,13 +52,13 @@ shinyServer(function(input, output) {
     #Weather = line chart
       location <- str_split_fixed(input$city, ", ", 2)
       #weather.data <- weatherData(location[,1], location[,2], input$start.date)
-      return(BuildLinePlot(mtcars, 'hp', 'drat', "hp", "drat", "else"))
+      return(BuildLinePlot(mtcars, 'hp', 'cyl', "3", "2", "else"))
       #return(BuildLineChart(weather.data, 'time', "temperature", "Time", "Weather",
           #paste("Weather on", input$dates, "in", input$city), 'FDE600'))
-    } else if (input$radio == 3) {
+    } else {
       plot.1 <- BuildBarPlot(mtcars, 'mpg', 'cyl', "1", "2", "title")
-      plot.2 <- BuildLinePlot(mtcars, 'hp', 'cyl', "hp", "cyl", "else")
-      return(BuildRenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, "hp"))
+      plot.2 <- BuildLinePlot(mtcars, 'hp', 'cyl', "3", "2", "else")
+      return(BuildRenderPlots(plot.1, mtcars, "mpg", plot.2, mtcars, "hp", "1", "3", "Rendered"))
     }
 })
   

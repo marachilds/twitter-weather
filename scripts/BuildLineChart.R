@@ -8,7 +8,7 @@ library(plotly)
 library(ggplot2)
 library(dplyr)
 
-BuildLinePlot <- function(data, x.var, y.var, x.label, y.label, title, color.var){
+BuildLinePlot <- function(data, x.var, y.var, x.label, y.label, title){
   p <- plot_ly(data = data,
                x = data[[x.var]],
                y = data[[y.var]],
